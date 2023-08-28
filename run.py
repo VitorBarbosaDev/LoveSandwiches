@@ -44,6 +44,7 @@ def validate_sales_data(values):
     Validate the sales data
     """
     try:
+        [int(value) for value in values]
         if len(values) != 6:
             raise ValueError(
                 f"Exactly 6 numbers should be entered, but {len(values)} were entered."
