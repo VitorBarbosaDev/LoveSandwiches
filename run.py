@@ -5,6 +5,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 # Define the scope for Google APIs
 SCOPE = [
@@ -66,8 +67,33 @@ def update_sales_data(data):
     sales_worksheet.append_row(data)
     print("Sales data updated Successfully!\n")
 
-data = get_sales_data()
 
-sales_data = [int(num) for num in data]
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales with stock and calculate the surplus for each item type.
 
-update_sales_data(sales_data)
+    The surplus is defined as the sales figure subtracted from the stock :
+    - Postive surplus indicates waste
+    - Negative surplus indicates extra made when stock ran out.
+    """
+    print("Calculating surplus data...\n")
+    stock = SHEET.worksheet("stock").get_all_values()
+    stock_row = stock[-1]
+    pprint(stock_row)
+
+
+def main():
+    """
+    Run all the functions
+    """
+    data = get_sales_data()
+
+    sales_data = [int(num) for num in data]
+
+    update_sales_data(sales_data)
+
+    calculate_surplus_data(sales_data)
+
+
+print("Welcome to the Love Sandwiches Data Automation Tool!\n")
+main()
