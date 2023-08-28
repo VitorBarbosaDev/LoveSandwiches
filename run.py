@@ -23,16 +23,18 @@ GSPREAD = gspread.authorize(SCOPED_CREDS)
 # Open the Google Sheet
 SHEET = GSPREAD.open('love_sandwiches')
 
+def get_sales_data():
+    ''''
+    Get the sales data from the user
+    '''
 
-# Access the 'Sales' worksheet
-sales = SHEET.worksheet('sales')
+    print("Please enter sales data from the last market.")
+    print("Data should be six numbers separated by a comma.")
+    print("Example: 10,20,30,40,50,60\n")
 
-# Retrieve all values from the 'Sales' worksheet
-data = sales.get_all_values()
-
-# Print the data
-print(data)
+    data_str = input("Enter your data here: ")
+    print(f"The data provided is {data_str}")
 
 
 
-
+get_sales_data()
