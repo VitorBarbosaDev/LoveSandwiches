@@ -24,6 +24,7 @@ GSPREAD = gspread.authorize(SCOPED_CREDS)
 # Open the Google Sheet
 SHEET = GSPREAD.open('love_sandwiches')
 
+
 def get_sales_data():
     ''''
     Get the sales data from the user
@@ -62,12 +63,11 @@ def update_worksheet(data, worksheet_name):
     """
       Receives a list of integers to be inserted into a worksheet.
       Updates the relevant worksheet data in the worksheet.
-      """
+    """
     print(f"Updating {worksheet_name} data...\n")
     sales_worksheet = SHEET.worksheet(worksheet_name)
     sales_worksheet.append_row(data)
     print(f"{worksheet_name} data updated Successfully!\n")
-
 
 
 def calculate_surplus_data(sales_row):
@@ -90,7 +90,18 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
+def get_last_5_entries_sales():
+    """
+    Collects collums of data from sales worksheet, collecting last 5 entries
+    for each sandwich and returns the data as a list of lists
+    """
+    sales_data = SHEET.worksheet("sales")
 
+    columns = []
+    for ind in range(1, 7):
+        column = sales_data.col_values(ind)
+        columns.append(column[-5:])
+    return columns
 
 
 def main():
@@ -109,4 +120,7 @@ def main():
 
 
 print("Welcome to the Love Sandwiches Data Automation Tool!\n")
+
 main()
+
+sales_columns = get_last_5_entries_sales()
